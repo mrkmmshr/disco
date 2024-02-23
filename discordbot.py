@@ -27,7 +27,7 @@ async def on_command_error(ctx, error):
 async def on_message(message):
     if message.content == 'ping':
         # LINE Notifyに通知
-        message = 'おい'
+        message = 'pong'
         headers = {'Authorization': f'Bearer {LINE_NOTIFY_ACCESS_TOKEN}'}
         data = {'message': message}
         requests.post('https://notify-api.line.me/api/notify', headers=headers, data=data)
