@@ -8,7 +8,7 @@ import requests
 LINE_NOTIFY_ACCESS_TOKEN = 'YTrWPR8t1V7203V3Ok90AWcB8d1FgJ0dFVPj030lyxm'
 
 # Discord Botのトークン
-DISCORD_BOT_TOKEN = 'MTIxMDU1MDE1MjE3NjIwNTgyNA.Gvzcbo.a9WgaWNHKOZCazTMWPsS99eOPacuCtydNvap-M'
+DISCORD_BOT_TOKEN = 'MTIxMDU1MDE1MjE3NjIwNTgyNA.GaABcT.eHDrlvgWMY9fh30KkJxDfZjKAZA3aSiAVi1_EA'
 
 intents = discord.Intents.default()
 intents.message_content = True
