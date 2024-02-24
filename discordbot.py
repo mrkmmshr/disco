@@ -2,17 +2,16 @@ import discord
 import traceback
 import requests
 from discord.ext import commands
-from os import getenv
+import os
 
 intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix='/', intents=intents)
 
-# LINE Notifyのトークンをここに設定
-line_notify_token = 'elAVuc7T0cgDIMTtGJYH0nod7ipgnztlQm4Gb3wR5rv'
+# LINE NotifyのトークンをHerokuの環境変数から取得
+line_notify_token = os.environ.get('LINE_NOTIFY_TOKEN')
 line_notify_api = 'https://notify-api.line.me/api/notify'
-
 
 def send_line_notify(notification_message):
     headers = {
@@ -24,18 +23,15 @@ def send_line_notify(notification_message):
     response = requests.post(line_notify_api, headers=headers, data=data)
     return response.status_code
 
-
 @bot.event
 async def on_command_error(ctx, error):
     orig_error = getattr(error, "original", error)
     error_msg = ''.join(traceback.TracebackException.from_exception(orig_error).format())
     await ctx.send(error_msg)
 
-
 @bot.command()
 async def ping(ctx):
     await ctx.send('pong')
-
 
 @bot.event
 async def on_message(message):
@@ -50,6 +46,6 @@ async def on_message(message):
     # コマンド処理を続行
     await bot.process_commands(message)
 
-
-token = getenv('DISCORD_BOT_TOKEN')
+# Discord ボットのトークンをHerokuの環境変数から取得
+token = os.environ.get('DISCORD_BOT_TOKEN')
 bot.run(token)
