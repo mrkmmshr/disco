@@ -42,7 +42,7 @@ async def on_message(message):
     # メッセージに「Splatoon」という単語が含まれていたらLINEに通知
     if 'Splatoon' in message.content:
         send_line_notify(f'{message.author} mentioned Splatoon in Discord.')
-    
+
     # コマンド処理を続行
     await bot.process_commands(message)
 
