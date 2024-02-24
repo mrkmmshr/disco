@@ -10,7 +10,7 @@ intents.message_content = True
 bot = commands.Bot(command_prefix='/', intents=intents)
 
 # LINE Notifyのトークンをここに設定
-line_notify_token = 'YOUR_LINE_NOTIFY_TOKEN'
+line_notify_token = 'elAVuc7T0cgDIMTtGJYH0nod7ipgnztlQm4Gb3wR5rv'
 line_notify_api = 'https://notify-api.line.me/api/notify'
 
 
