@@ -44,13 +44,19 @@ async def ping(ctx):
 
 @bot.event
 async def on_message(message):
+    # ボット自身のメッセージは無視する
     if message.author == bot.user:
         return
 
     # メッセージに「通話開始」という単語が含まれていたらLINEに通知
-    if '通話' in message.content:
-        await send_line_notify('通話が始まりました in Discord.')
+    if '通話開始' in message.content:
+        await send_line_notify('Discordで通話が始まりました.')
 
+    # メッセージに「通話終了」という単語が含まれていたらLINEに通知
+    if '通話終了' in message.content:
+        await send_line_notify('Discordで通話が終了しました.')
+
+    # 他のコマンドも正しく動作するようにする
     await bot.process_commands(message)
 
 bot.run(discord_bot_token)
