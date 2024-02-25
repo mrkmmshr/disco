@@ -1,27 +1,36 @@
 import discord
 import traceback
-import requests
+import aiohttp
 from discord.ext import commands
 import os
+
+# 環境変数の確認
+line_notify_token = os.environ.get('LINE_NOTIFY_TOKEN')
+if not line_notify_token:
+    raise ValueError("LINE_NOTIFY_TOKEN is not set in environment variables.")
+
+discord_bot_token = os.environ.get('DISCORD_BOT_TOKEN')
+if not discord_bot_token:
+    raise ValueError("DISCORD_BOT_TOKEN is not set in environment variables.")
 
 intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix='/', intents=intents)
-
-# LINE NotifyのトークンをHerokuの環境変数から取得
-line_notify_token = os.environ.get('LINE_NOTIFY_TOKEN')
 line_notify_api = 'https://notify-api.line.me/api/notify'
 
-def send_line_notify(notification_message):
-    headers = {
-        'Authorization': f'Bearer {line_notify_token}'
-    }
-    data = {
-        'message': f'message: {notification_message}'
-    }
-    response = requests.post(line_notify_api, headers=headers, data=data)
-    return response.status_code
+async def send_line_notify(notification_message):
+    headers = {'Authorization': f'Bearer {line_notify_token}'}
+    data = {'message': f'message: {notification_message}'}
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.post(line_notify_api, headers=headers, data=data) as response:
+                if response.status != 200:
+                    # ログ出力等のエラーハンドリング
+                    print(f"Error: {response.status} - {await response.text()}")
+        except Exception as e:
+            # ログ出力等のエラーハンドリング
+            print(f"Exception during LINE Notify request: {e}")
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -35,17 +44,12 @@ async def ping(ctx):
 
 @bot.event
 async def on_message(message):
-    # ボット自身のメッセージは無視する
     if message.author == bot.user:
         return
 
-    # メッセージに「Splatoon」という単語が含まれていたらLINEに通知
     if 'Splatoon' in message.content:
-        send_line_notify(f'{message.author} mentioned Splatoon in Discord.')
+        await send_line_notify(f'{message.author} mentioned Splatoon in Discord.')
 
-    # コマンド処理を続行
     await bot.process_commands(message)
 
-# Discord ボットのトークンをHerokuの環境変数から取得
-token = os.environ.get('DISCORD_BOT_TOKEN')
-bot.run(token)
+bot.run(discord_bot_token)
