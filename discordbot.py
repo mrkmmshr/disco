@@ -54,7 +54,7 @@ async def on_message(message):
 
     # メッセージに「通話終了」という単語が含まれていたらLINEに通知
     if '通話終了' in message.content:
-        await send_line_notify('Discordで通話が終了しました.')
+        await send_line_notify('Discordで通話が終わりました.')
 
     # 他のコマンドも正しく動作するようにする
     await bot.process_commands(message)
