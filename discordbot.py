@@ -47,8 +47,9 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    if 'Splatoon' in message.content:
-        await send_line_notify(f'{message.author} mentioned Splatoon in Discord.')
+    # メッセージに「通話開始」という単語が含まれていたらLINEに通知
+    if '通話' in message.content:
+        await send_line_notify('通話が始まりました in Discord.')
 
     await bot.process_commands(message)
 
