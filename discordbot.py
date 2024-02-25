@@ -35,9 +35,9 @@ async def ping(ctx):
 
 @bot.event
 async def on_message(message):
-    # ボット自身のメッセージは無視する
-    if message.author == bot.user:
-        return
+    # # ボット自身のメッセージは無視する
+    # if message.author == bot.user:
+    #     return
 
     # メッセージに「Splatoon」という単語が含まれていたらLINEに通知
     if 'Splatoon' in message.content:
