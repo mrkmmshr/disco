@@ -49,11 +49,11 @@ async def on_message(message):
         return
 
     # メッセージに「通話開始」という単語が含まれていたらLINEに通知
-    if '通話開始' in message.content:
+    if '入室しました：1人' in message.content:
         await send_line_notify('Discordで通話が始まりました.')
 
     # メッセージに「通話終了」という単語が含まれていたらLINEに通知
-    if '通話終了' in message.content:
+    if '入室しました：0人' in message.content:
         await send_line_notify('Discordで通話が終わりました.')
 
     # 他のコマンドも正しく動作するようにする
