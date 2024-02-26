@@ -53,7 +53,7 @@ async def on_message(message):
         await send_line_notify('Discordで通話が始まりました.')
 
     # メッセージに「通話終了」という単語が含まれていたらLINEに通知
-    if '入室しました：0人' in message.content:
+    if '退室しました：0人' in message.content:
         await send_line_notify('Discordで通話が終わりました.')
 
     # 他のコマンドも正しく動作するようにする
